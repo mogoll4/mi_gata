@@ -4,370 +4,879 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Usuarios</title>
+    <link rel="stylesheet" href="../public/css/dashboard.css">
     <link rel="stylesheet" href="/path/to/your/styles.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Estilos generales */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+        :root {
+    --primary-color: #D6266F;
+    --secondary-color: #4A2828;
+    --background-color: #f5f6fa;
+    --card-color: #ffffff;
+    --text-color: #333333;
+}
+
+* {
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     min-height: 100vh;
+    background-color: var(--background-color);
 }
 
-/* Encabezados */
-h1, h2 {
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-/* Contenedor del formulario */
-#user-form {
-    width: 90%;
-    max-width: 500px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-}
-
-#user-form label {
-    font-weight: bold;
-    color: #555;
-    margin: 10px 0 5px;
-    display: block;
-}
-
-#user-form input[type="text"],
-#user-form input[type="email"],
-#user-form input[type="password"],
-#user-form input[type="number"] {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* Botones del formulario */
-#user-form button {
-    padding: 10px 15px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-#user-form button[type="submit"] {
-    background-color: #4CAF50;
-    color: #fff;
-}
-
-#user-form button[type="button"] {
-    background-color: #d9534f;
-    color: #fff;
-    margin-left: 10px;
-}
-
-#user-form button:hover {
-    opacity: 0.9;
-}
-
-/* Tabla de usuarios */
-table {
-    width: 90%;
-    max-width: 800px;
-    border-collapse: collapse;
-    margin: 20px 0;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-table th, table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-table th {
-    background-color: #f8f8f8;
-    color: #333;
-    font-weight: bold;
-}
-
-table td {
-    background-color: #fff;
-}
-
-/* Botones de acción */
-.action-button {
-    padding: 6px 12px;
-    margin: 2px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    color: #fff;
-    font-size: 14px;
-    transition: background-color 0.3s;
-}
-
-.edit-button {
-    background-color: #ffa500;
-}
-
-.delete-button {
-    background-color: #d9534f;
-}
-
-.action-button:hover {
-    opacity: 0.9;
-}
-
+/* Sidebar */
 .sidebar {
     width: 250px;
-    background-color: rgb(248, 165, 251);
+    background-color: var(--card-color);
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+.sidebar-header {
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar-header h2 {
+    color: var(--primary-color);
+}
+
+.nav-links {
+    list-style: none;
+    margin-top: 30px;
+}
+
+.nav-links li a {
+    display: block;
+    padding: 15px;
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.nav-links li a:hover,
+.nav-links li a.active {
+    background-color: var(--primary-color);
     color: white;
-    height: 100vh;
+}
+.header__user-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header__action-btn {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.header__action-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.header__action-btn i {
+    display: block;
+}
+.header__user-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header__action-btn {
+    color: var(--primary-color);
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header__action-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.header__action-btn i {
+    font-size: 1.2rem;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Top Bar */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: var(--card-color);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    padding: 10px 20px;
+    border: 1px solid #eee;
+    border-radius: 25px;
+    width: 300px;
+}
+
+/* Dashboard Cards */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: var(--card-color);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+.number {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.trend {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.trend.positive { color: #2ecc71; }
+.trend.negative { color: #e74c3c; }
+
+/* Charts Container */
+.charts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.chart-card {
+    background-color: var(--card-color);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Recent Sales Table */
+.recent-sales {
+    background-color: var(--card-color);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.status {
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+.status.completado {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.status.pendiente {
+    background-color: #fff3e0;
+    color: #ef6c00;
+}
+
+.status.en-proceso {
+    background-color: #e3f2fd;
+    color: #1565c0;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+    
+    .sidebar-header h2,
+    .nav-links span {
+        display: none;
+    }
+    
+    .main-content {
+        margin-left: 70px;
+    }
+    
+    .charts-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Estilos para la página de ventas */
+.filtros-section {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.filtros-section select,
+.filtros-section input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.nueva-venta-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
-    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
 }
 
-.sidebar-header {
+.modal-content {
+    background-color: white;
     padding: 20px;
-    text-align: center;
-    background-color: rgb(244, 160, 247);
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    margin: 50px auto;
 }
 
-.sidebar-menu {
+.form-group {
+    margin-bottom: 15px;
+}
+
+.productos-lista {
+    margin: 15px 0;
+}
+
+.producto-item {
     display: flex;
-    flex-direction: column;
-}
-
-.sidebar-header {
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-}
-
-.back-button {
-    color: #fff;
-    font-size: 1.2rem;
-    margin-right: 1rem;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.back-button:hover {
-    color: #ddd;
-}
-
-/* Asegúrate de que el ícono de flecha tenga el tamaño adecuado */
-.back-button i {
-    font-size: 1.2rem;
-}
-.menu-item {
-    padding: 15px;
-    text-decoration: none;
-    color: white;
-    display: flex;
-    align-items: center;
     gap: 10px;
+    margin-bottom: 10px;
 }
 
-.menu-item:hover, .menu-item.active {
-    background-color: rgb(251, 135, 255);
+.ver-btn,
+.editar-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 0 5px;
 }
 
-.main-content {
-    margin-left: 250px;
+.ver-btn {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.editar-btn {
+    background-color: #2ecc71;
+    color: white;
+}
+
+:root {
+    --primary-color: #D6266F;
+    --secondary-color: #4A2828;
+    --background-color: #f8f9fa;
+    --card-color: #ffffff;
+    --text-color: #333333;
+}
+
+/* Información del usuario */
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Coloca el contenido a la izquierda */
+    margin-top: 30px; /* Espacio en la parte superior de la imagen */
+    padding-top: 20px;
+    border-top: 1px solid #eee; /* Línea superior */
+}
+
+/* Imagen de perfil */
+.profile-img {
+    width: 40px; /* Tamaño más pequeño */
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px; /* Espacio entre la imagen y el nombre */
+}
+
+.user-info span {
+    color: var(--text-color);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar (mantener consistente con el dashboard) */
+.sidebar {
+    width: 280px;
+    background-color: var(--card-color);
     padding: 20px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
 }
 
-.header {
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: var(--background-color);
+}
+
+/* Header Actions */
+.header-actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    margin-bottom: 20px;
+.nuevo-cliente-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.stat-card {
-    background-color: white;
+.nuevo-cliente-btn:hover {
+    background-color: #bf1b5d;
+}
+
+/* Search and Filter Section */
+.filtros-section {
+    background-color: var(--card-color);
     padding: 20px;
     border-radius: 10px;
+    margin-bottom: 20px;
     display: flex;
-    align-items: center;
     gap: 15px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    align-items: center;
 }
 
-.stat-card i {
-    font-size: 2rem;
-    color: #333;
+.search-box input,
+.filtros-section select {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 14px;
 }
 
-.stat-info h3 {
-    margin: 0;
-    font-size: 1.5rem;
-}
-
-.stat-info p {
-    margin: 5px 0 0;
-    color: rgb(61, 61, 61);
-}
-
-.chart-container {
-    background-color: white;
+/* Clientes Table */
+.clientes-table {
+    background-color: var(--card-color);
     padding: 20px;
     border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-/* Contenedor de configuraciones */
-.settings-container {
-    flex: 1;
-    margin-left: 250px;
-    padding: 20px;
-    background-color: #f4f4f4;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Adaptación a pantallas pequeñas */
-@media (max-width: 600px) {
-    table, #user-form {
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.estado-badge {
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+.activo { 
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.inactivo {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+/* Actions Buttons */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.edit-btn, .delete-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.edit-btn {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: var(--card-color);
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    margin: 50px auto;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+    }
+    
+    .filtros-section {
+        flex-direction: column;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+}
+:root {
+    --primary-color: #D6266F;
+    --secondary-color: #4A2828;
+    --background-color: #f8f9fa;
+    --card-color: #ffffff;
+    --text-color: #333333;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar (mantener consistente con el dashboard) */
+.sidebar {
+    width: 280px;
+    background-color: var(--card-color);
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    background-color: var(--background-color);
+}
+
+.profile-section {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.profile-header {
+    background-color: var(--card-color);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.profile-image-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary-color);
+}
+
+.change-photo-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+
+.profile-form {
+    background-color: var(--card-color);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.form-section {
+    margin-bottom: 30px;
+}
+
+.form-section h3 {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.save-btn, .cancel-btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.save-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.save-btn:hover {
+    background-color: #bf1b5d;
+}
+
+.cancel-btn {
+    background-color: #6c757d;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #5a6268;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .save-btn, .cancel-btn {
         width: 100%;
     }
+}
+/* Estilos para el Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000; /* Asegúrate de que sea suficientemente alto */
+}
 
-    table th, table td {
-        font-size: 14px;
-    }
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    margin: 0 auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.back-arrow {
+    margin-bottom: 20px;
+}
+
+.back-link {
+    display: inline-block;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: var(--card-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.back-link:hover {
+    background-color: var(--primary-color);
+    color: white;
 }
     </style>
 </head>
-<body>
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <a href="../dashboard-admin.html" class="back-button"><i class="fas fa-arrow-left"></i></a>
-            <h2>Admin Panel</h2>
-        </div>
-        <nav class="sidebar-menu">
-            <a href="#" class="menu-item active"><i class="fas fa-home"></i> Resumen General</a>
-            <a href="../views/dashboard-admin/productos.html" class="menu-item"><i class="fas fa-box"></i> Productos</a>
-            <a href="../views/dashboard-admin/pedidos.html" class="menu-item"><i class="fas fa-shopping-cart"></i> Pedidos</a>
-            <a href="../views/dashboard-admin/usuarios.html" class="menu-item"><i class="fas fa-users"></i> Usuarios</a>
-            <a href="../views/dashboard-admin/reportes.html" class="menu-item"><i class="fas fa-chart-line"></i> Reportes</a>
-            <a href="../views/dashboard-admin/notificaciones.html" class="menu-item"><i class="fas fa-bell"></i> Notificaciones</a>
-            <a href="../views/dashboard-admin/config-admin.html" class="menu-item"><i class="fas fa-cog"></i> Configuración</a>
-        </nav>
-    </aside>
-    <h1>Gestión de Usuarios</h1>
-
-    <!-- Formulario para crear y actualizar usuario -->
-    <div id="user-form">
-        <h2 id="form-title">Nuevo Usuario</h2>
-        <form id="usuarioForm">
-            <input type="hidden" id="usuarioId">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" required><br>
-
-            <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" required><br>
-
-            <label for="correo_electronico">Correo Electrónico:</label>
-            <input type="email" id="correo_electronico" required><br>
-
-            <label for="contrasena">Contraseña:</label>
-            <input type="password" id="contrasena" required><br>
-
-            <label for="rol_id">Rol ID:</label>
-            <input type="number" id="rol_id" required><br>
-
-            <button type="submit">Guardar</button>
-            <button type="button" onclick="resetForm()">Cancelar</button>
-        </form>
-    </div>
-
-    <!-- Tabla de usuarios -->
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Correo Electrónico</th>
-                <th>Rol</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="usuariosTableBody">
-            <!-- Las filas se llenarán aquí mediante JavaScript -->
-        </tbody>
-    </table>
-
-    <script>
-        form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const userData = {
-        nombre: nombre.value,
-        apellido: apellido.value,
-        correo_electronico: correoElectronico.value,
-        contrasena: contrasena.value,
-        rol_id: parseInt(rolId.value),
-    };
-
-    try {
-        let response;
-        if (usuarioId.value) {
-            response = await updateUsuario(usuarioId.value, userData);
-        } else {
-            response = await createUsuario(userData);
-        }
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            alert(`Error: ${errorData.message || 'No se pudo guardar el usuario'}`);
-            return;
-        }
-
-        alert('Usuario guardado exitosamente');
-        fetchUsuarios();
-        resetForm();
-    } catch (error) {
-        console.error('Error al guardar usuario:', error);
-        alert('Hubo un problema al intentar guardar el usuario. Verifica los detalles en la consola.');
-    }
-});
-async function createUsuario(userData) {
-    return await fetch('/api/usuarios', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData)
-    });
-}
-
-async function updateUsuario(id, userData) {
-    return await fetch(`/api/usuarios/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData)
-    });
-}
-
-    </script>
-</body>
-</html>
+    <body>
+        <header>
+            <h1>Dashboard de Usuarios</h1>
+        </header>
+        <div class="container">
+            <!-- Sidebar -->
+            <nav class="sidebar">
+                <div class="sidebar-header">
+                    <h2>Admin Panel</h2>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="../dashboard-admin.html"><i class="fas fa-home"></i>Inicio</a></li>
+                    <li><a href="./usuarios.html" class="active"><i class="fas fa-users"></i>Usuarios</a></li>
+                    <li><a href="./clientes.html"><i class="fas fa-users"></i>Clientes</a></li>
+                    <li><a href="./ordenes.html" ><i class="fas fa-box"></i> Órdenes</a></li>
+                    <li><a href="./productos.html"><i class="fas fa-tags"></i> Productos</a></li>
+                </ul>
+            </nav>
+    
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Top Bar -->
+                <div class="top-bar">
+                    <div class="search-box">
+                        <input type="text" placeholder="Buscar usuarios...">
+                    </div>
+                    <button class="nuevo-cliente-btn" onclick="mostrarModal()">Nuevo Usuario</button>
+                </div>
+    
+                <!-- Tabla de Usuarios -->
+                <div class="clientes-table">
+                    <table id="usuariosTable">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usuariosBody">
+                            <!-- Filas dinámicas generadas por JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+    
+                <!-- Modal para CRUD -->
+                <div class="modal" id="usuarioModal">
+                    <div class="modal-content">
+                        <span onclick="cerrarModal()" style="cursor:pointer;">&times;</span>
+                        <form id="usuarioForm">
+                            <div class="form-group">
+                                <label for="nombre">Nombre:</label>
+                                <input type="text" id="nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" required>
+                            </div>
+                            <!-- Botones del modal -->
+                            <div class="modal-buttons">
+                                <button type="submit" class="save-btn">Guardar</button>
+                                <button type="button" onclick="cerrarModal()" class="cancel-btn">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+    
+            </div> <!-- Fin del main-content -->
+        </div> <!-- Fin del container -->
+    
+        <!-- Scripts necesarios -->
+        <script src="../public/js/dashboard.js"></script>
+    
+        <!-- Script para manejo CRUD -->
+        <script>
+            // Funciones para abrir y cerrar el modal
+            function mostrarModal() {
+                document.getElementById('usuarioModal').style.display = 'block';
+            }
+    
+            function cerrarModal() {
+                document.getElementById('usuarioModal').style.display = 'none';
+            }
+    
+            // Función para manejar el formulario
+            document.getElementById('usuarioForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                // Aquí implementa la lógica para guardar los datos
+                cerrarModal();
+            });
+    
+            // Lógica para cargar y manejar usuarios
+            function cargarUsuarios() {
+                // Aquí implementa la lógica para cargar los usuarios desde una fuente de datos
+            }
+    
+            // Inicializar carga de usuarios
+            cargarUsuarios();
+        </script>
+    
+    </body>
+    </html>

@@ -56,3 +56,4 @@ Sigue los pasos a continuación para configurar el proyecto localmente:
 - JWT_SECRET=supersecretkey
 - PORT=5000
 
+# mi_gata

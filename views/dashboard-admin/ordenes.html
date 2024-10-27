@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard de Productos</title>
+    <title>Dashboard de Órdenes</title>
     <link rel="stylesheet" href="../public/css/dashboard.css">
+    <link rel="stylesheet" href="/path/to/your/styles.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Estilos generales */
         :root {
     --primary-color: #D6266F;
     --secondary-color: #4A2828;
@@ -75,12 +77,10 @@
 .header__action-btn {
     color: var(--primary-color);
     text-decoration: none;
+    font-size: 1.2rem;
     padding: 8px;
     border-radius: 50%;
     transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .header__action-btn:hover {
@@ -97,10 +97,19 @@
     gap: 20px;
 }
 
-
+.header__action-btn {
+    color: var(--primary-color);
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .header__action-btn:hover {
-    background-color: white;
+    background-color: var(--primary-color);
     color: white;
 }
 
@@ -323,7 +332,7 @@ th {
 }
 
 :root {
-    --primary-color: #ffffff;
+    --primary-color: #D6266F;
     --secondary-color: #4A2828;
     --background-color: #f8f9fa;
     --card-color: #ffffff;
@@ -747,19 +756,26 @@ th {
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
-.nuevo-producto-btn {
+.back-arrow {
+    margin-bottom: 20px;
+}
+
+.back-link {
+    display: inline-block;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: var(--card-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.back-link:hover {
     background-color: var(--primary-color);
     color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
 }
-
-.nuevo-producto-btn:hover {
-    background-color: #bf1b5d;
-}
-
 .action-buttons {
     display: flex;
     gap: 8px;
@@ -770,6 +786,7 @@ th {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 12px;
 }
 
 .ver-btn {
@@ -786,11 +803,11 @@ th {
     background-color: #dc3545;
     color: white;
 }
-    </style>
+</style>
 </head>
 <body>
     <header>
-        <h1>Dashboard de Productos</h1>
+        <h1>Dashboard de Órdenes</h1>
     </header>
     <div class="container">
         <!-- Sidebar -->
@@ -799,11 +816,11 @@ th {
                 <h2>Admin Panel</h2>
             </div>
             <ul class="nav-links">
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Usuarios</a></li>
-                <li><a href="#">Clientes</a></li>
-                <li><a href="#">Órdenes</a></li>
-                <li><a href="#" class="active"><i class="fas fa-tags"></i> Productos</a></li>
+                <li><a href="../dashboard-admin.html"><i class="fas fa-home"></i>Inicio</a></li>
+                <li><a href="./usuarios.html"><i class="fas fa-users"></i>Usuarios</a></li>
+                <li><a href="./clientes.html"><i class="fas fa-users"></i>Clientes</a></li>
+                <li><a href="./ordenes.html" class="active"><i class="fas fa-box"></i> Órdenes</a></li>
+                <li><a href="./productos.html"><i class="fas fa-tags"></i> Productos</a></li>
             </ul>
         </nav>
 
@@ -812,7 +829,7 @@ th {
             <!-- Top Bar -->
             <div class="top-bar">
                 <div class="search-box">
-                    <input type="text" placeholder="Buscar productos...">
+                    <input type="text" placeholder="Buscar órdenes...">
                 </div>
                 <!-- Botones de acción del usuario -->
                 <div class="header__user-actions">
@@ -822,52 +839,53 @@ th {
                 </div>
             </div>
 
-            <!-- Tabla de Productos -->
-            <div class="productos-table">
-                <h3>Productos Disponibles</h3>
-                <button class="nuevo-producto-btn" onclick="mostrarModal()">Nuevo Producto</button>
-                <table id="productosTable">
+            <!-- Tabla de Órdenes -->
+            <div class="recent-sales">
+                <h3>Órdenes Recientes</h3>
+                <table id="ordenesTable">
                     <thead>
                         <tr>
-                            <th>ID Producto</th>
-                            <th>Nombre</th>
-                            <th>Categoría</th>
-                            <th>Precio</th>
-                            <th>Stock</th>
+                            <th>ID Orden</th>
+                            <th>Cliente</th>
+                            <th>Total</th>
+                            <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody id="productosBody">
+                    <tbody id="ordenesBody">
                         <!-- Filas dinámicas generadas por JavaScript -->
+                        <!-- Ejemplo: -->
+                        <tr>
+                            <td>1</td>
+                            <td>Juan Pérez</td>
+                            <td>$150.00</td>
+                            <td><span class="status completado">Completada</span></td>
+                            <td class="action-buttons">
+                                <button class="ver-btn"><i class="fas fa-eye"></i> Ver</button>
+                                <button class="editar-btn"><i class="fas fa-edit"></i> Editar</button>
+                                <button class="delete-btn"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
 
             <!-- Modal para CRUD -->
-            <div class="modal" id="productoModal">
+            <div class="modal" id="ordenModal">
                 <div class="modal-content">
                     <span onclick="cerrarModal()" style="cursor:pointer;">&times;</span>
-                    <!-- Formulario para editar o crear un producto -->
-                    <form id="productoForm">
+                    <!-- Formulario para editar o crear una orden -->
+                    <form id="ordenForm">
                         <!-- Campos del formulario -->
+                        <!-- Ejemplo: -->
                         <div class="form-group">
-                            <label for="nombre">Nombre:</label>
-                            <input type="text" id="nombre" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="categoria">Categoría:</label>
-                            <input type="text" id="categoria" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="precio">Precio:</label>
-                            <input type="number" id="precio" step=".01" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="stock">Stock:</label>
-                            <input type="number" id="stock" required>
+                            <label for="estado">Estado:</label>
+                            <select id="estado" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="pendiente">Pendiente</option>
+                                <option value="confirmada">Confirmada</option>
+                                <!-- Más opciones según sea necesario -->
+                            </select>
                         </div>
 
                         <!-- Botones del modal -->
@@ -889,27 +907,27 @@ th {
     <script>
         // Funciones para abrir y cerrar el modal
         function mostrarModal() {
-            document.getElementById('productoModal').style.display = 'block';
+            document.getElementById('ordenModal').style.display = 'block';
         }
 
         function cerrarModal() {
-            document.getElementById('productoModal').style.display = 'none';
+            document.getElementById('ordenModal').style.display = 'none';
         }
 
         // Función para manejar el formulario
-        document.getElementById('productoForm').addEventListener('submit', function(event) {
+        document.getElementById('ordenForm').addEventListener('submit', function(event) {
             event.preventDefault();
             // Aquí implementa la lógica para guardar los datos
             cerrarModal();
         });
 
-        // Lógica para cargar y manejar productos
-        function cargarProductos() {
-            // Aquí implementa la lógica para cargar los productos desde una fuente de datos
+        // Lógica para cargar y manejar órdenes
+        function cargarOrdenes() {
+            // Aquí implementa la lógica para cargar las órdenes desde una fuente de datos
         }
 
-        // Inicializar carga de productos
-        cargarProductos();
+        // Inicializar carga de órdenes
+        cargarOrdenes();
     </script>
 
 </body>

@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard de Productos</title>
+    <title>Dashboard de Clientes</title>
     <link rel="stylesheet" href="../public/css/dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -747,7 +746,7 @@ th {
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
-.nuevo-producto-btn {
+.nuevo-cliente-btn {
     background-color: var(--primary-color);
     color: white;
     padding: 10px 20px;
@@ -756,7 +755,7 @@ th {
     cursor: pointer;
 }
 
-.nuevo-producto-btn:hover {
+.nuevo-cliente-btn:hover {
     background-color: #bf1b5d;
 }
 
@@ -790,7 +789,7 @@ th {
 </head>
 <body>
     <header>
-        <h1>Dashboard de Productos</h1>
+        <h1>Dashboard de Clientes</h1>
     </header>
     <div class="container">
         <!-- Sidebar -->
@@ -799,11 +798,11 @@ th {
                 <h2>Admin Panel</h2>
             </div>
             <ul class="nav-links">
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Usuarios</a></li>
-                <li><a href="#">Clientes</a></li>
-                <li><a href="#">Órdenes</a></li>
-                <li><a href="#" class="active"><i class="fas fa-tags"></i> Productos</a></li>
+                <li><a href="../dashboard-admin.html"><i class="fas fa-home"></i>Inicio</a></li>
+                <li><a href="./usuarios.html"><i class="fas fa-users"></i>Usuarios</a></li>
+                <li><a href="./clientes.html" class="active"><i class="fas fa-users"></i>Clientes</a></li>
+                <li><a href="./ordenes.html" ><i class="fas fa-box"></i> Órdenes</a></li>
+                <li><a href="./productos.html"><i class="fas fa-tags"></i> Productos</a></li>
             </ul>
         </nav>
 
@@ -812,7 +811,7 @@ th {
             <!-- Top Bar -->
             <div class="top-bar">
                 <div class="search-box">
-                    <input type="text" placeholder="Buscar productos...">
+                    <input type="text" placeholder="Buscar clientes...">
                 </div>
                 <!-- Botones de acción del usuario -->
                 <div class="header__user-actions">
@@ -822,52 +821,37 @@ th {
                 </div>
             </div>
 
-            <!-- Tabla de Productos -->
-            <div class="productos-table">
-                <h3>Productos Disponibles</h3>
-                <button class="nuevo-producto-btn" onclick="mostrarModal()">Nuevo Producto</button>
-                <table id="productosTable">
+            <!-- Tabla de Clientes -->
+            <div class="clientes-table">
+                <h3>Clientes Registrados</h3>
+                <button class="nuevo-cliente-btn" onclick="mostrarModal()">Nuevo Cliente</button>
+                <table id="clientesTable">
                     <thead>
                         <tr>
-                            <th>ID Producto</th>
+                            <th>ID Cliente</th>
                             <th>Nombre</th>
-                            <th>Categoría</th>
-                            <th>Precio</th>
-                            <th>Stock</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody id="productosBody">
+                    <tbody id="clientesBody">
                         <!-- Filas dinámicas generadas por JavaScript -->
                     </tbody>
                 </table>
             </div>
 
             <!-- Modal para CRUD -->
-            <div class="modal" id="productoModal">
+            <div class="modal" id="clienteModal">
                 <div class="modal-content">
                     <span onclick="cerrarModal()" style="cursor:pointer;">&times;</span>
-                    <!-- Formulario para editar o crear un producto -->
-                    <form id="productoForm">
+                    <!-- Formulario para editar o crear un cliente -->
+                    <form id="clienteForm">
                         <!-- Campos del formulario -->
+                        <!-- Ejemplo: -->
                         <div class="form-group">
                             <label for="nombre">Nombre:</label>
                             <input type="text" id="nombre" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="categoria">Categoría:</label>
-                            <input type="text" id="categoria" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="precio">Precio:</label>
-                            <input type="number" id="precio" step=".01" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="stock">Stock:</label>
-                            <input type="number" id="stock" required>
                         </div>
 
                         <!-- Botones del modal -->
@@ -889,27 +873,27 @@ th {
     <script>
         // Funciones para abrir y cerrar el modal
         function mostrarModal() {
-            document.getElementById('productoModal').style.display = 'block';
+            document.getElementById('clienteModal').style.display = 'block';
         }
 
         function cerrarModal() {
-            document.getElementById('productoModal').style.display = 'none';
+            document.getElementById('clienteModal').style.display = 'none';
         }
 
         // Función para manejar el formulario
-        document.getElementById('productoForm').addEventListener('submit', function(event) {
+        document.getElementById('clienteForm').addEventListener('submit', function(event) {
             event.preventDefault();
             // Aquí implementa la lógica para guardar los datos
             cerrarModal();
         });
 
-        // Lógica para cargar y manejar productos
-        function cargarProductos() {
-            // Aquí implementa la lógica para cargar los productos desde una fuente de datos
+        // Lógica para cargar y manejar clientes
+        function cargarClientes() {
+            // Aquí implementa la lógica para cargar los clientes desde una fuente de datos
         }
 
-        // Inicializar carga de productos
-        cargarProductos();
+        // Inicializar carga de clientes
+        cargarClientes();
     </script>
 
 </body>
